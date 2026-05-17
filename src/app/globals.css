@@ -1,26 +1,241 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes recordPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50%       { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
+}
+
+.animate-fade-up   { animation: fadeUp  0.5s ease forwards; }
+.animate-fade-in   { animation: fadeIn  0.4s ease forwards; }
+.animate-float     { animation: float   3s ease-in-out infinite; }
+.animate-record    { animation: recordPulse 1.5s ease-in-out infinite; }
+
+.stagger-1 { animation-delay: 0.1s; opacity: 0; }
+.stagger-2 { animation-delay: 0.2s; opacity: 0; }
+.stagger-3 { animation-delay: 0.3s; opacity: 0; }
+.stagger-4 { animation-delay: 0.4s; opacity: 0; }
+.stagger-5 { animation-delay: 0.5s; opacity: 0; }
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-blue {
+  background: rgba(59, 130, 246, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #60A5FA, #818CF8, #A78BFA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #60A5FA 0%, #A78BFA 50%, #60A5FA 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+.mesh-bg {
+  background-color: #050816;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 60% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 60%);
+}
+
+.card-hover {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0f1e; }
+::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.5); }
+
+* { box-sizing: border-box; }
+body { background: #050816; color: #E2E8F0; }
+
+
+
+
+
+/* ── Clerk dark theme overrides ── */
+.cl-rootBox,
+.cl-card,
+.cl-cardBox {
+  background: #0d1424 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 40px rgba(59,130,246,0.08) !important;
+}
+
+.cl-headerTitle {
+  color: #F1F5F9 !important;
+  font-weight: 700 !important;
+}
+
+.cl-headerSubtitle,
+.cl-header p {
+  color: #94A3B8 !important;
+}
+
+/* Labels */
+.cl-formFieldLabel,
+.cl-formFieldLabelRow label {
+  color: #CBD5E1 !important;
+  font-weight: 500 !important;
+}
+
+/* Inputs */
+.cl-formFieldInput {
+  background: #1a2235 !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: #F1F5F9 !important;
+  caret-color: #60A5FA !important;
+}
+
+.cl-formFieldInput:focus {
+  background: #1e2a40 !important;
+  border-color: rgba(59,130,246,0.5) !important;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1) !important;
+}
+
+.cl-formFieldInput::placeholder {
+  color: #475569 !important;
+}
+
+/* Show password button */
+.cl-formFieldInputShowPasswordButton,
+.cl-formFieldInputShowPasswordIcon {
+  color: #64748B !important;
+}
+
+/* Social buttons */
+.cl-socialButtonsBlockButton {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: #CBD5E1 !important;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(59,130,246,0.3) !important;
+}
+
+.cl-socialButtonsBlockButtonText {
+  color: #CBD5E1 !important;
+}
+
+/* Divider */
+.cl-dividerLine {
+  background: rgba(255,255,255,0.08) !important;
+}
+
+.cl-dividerText {
+  color: #475569 !important;
+}
+
+/* Primary button */
+.cl-formButtonPrimary {
+  background: linear-gradient(135deg, #3B82F6, #6366F1) !important;
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(59,130,246,0.3) !important;
+}
+
+.cl-formButtonPrimary:hover {
+  background: linear-gradient(135deg, #60A5FA, #818CF8) !important;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.5) !important;
+}
+
+/* Footer */
+.cl-footer,
+.cl-footerAction {
+  background: rgba(0,0,0,0.2) !important;
+  border-top: 1px solid rgba(255,255,255,0.05) !important;
+}
+
+.cl-footerActionText {
+  color: #64748B !important;
+}
+
+.cl-footerActionLink {
+  color: #60A5FA !important;
+  font-weight: 600 !important;
+}
+
+.cl-footerActionLink:hover {
+  color: #93C5FD !important;
+}
+
+/* Forgot password / action links */
+.cl-formFieldAction {
+  color: #60A5FA !important;
+}
+
+/* Internal text */
+.cl-identityPreviewText,
+.cl-identityPreviewEditButtonText {
+  color: #CBD5E1 !important;
+}
+
+.cl-identityPreviewEditButton {
+  color: #60A5FA !important;
+}
+
+/* Error / alert text */
+.cl-formFieldErrorText,
+.cl-alertText {
+  color: #F87171 !important;
+}
+
+/* OTP / verification inputs */
+.cl-otpCodeFieldInput {
+  background: #1a2235 !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: #F1F5F9 !important;
+}
+
+/* Internal nav / back buttons */
+.cl-backLink,
+.cl-backLinkText {
+  color: #60A5FA !important;
 }
